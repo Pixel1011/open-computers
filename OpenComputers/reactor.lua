@@ -5,6 +5,7 @@ local reactor = component.nc_fission_reactor
 local c = component.computer
 local gpu = component.gpu
 local active = reactor.isProcessing()
+local onoff = ""
 --local list = component.list()
 --for address, componentType in list do
 --  print("Address: ", address," | component: ", componentType)
@@ -16,7 +17,7 @@ function write()
   term.write("Nuclearcraft ".. reactor.getLengthX() .. "x" .. reactor.getLengthY() .. "x" .. reactor.getLengthZ() .. "fission reactor controler")
   term.setCursor(2,2)
   if (active == true) then
-    local onoff = "Online" 
+    onoff = "Online" 
     gpu.setForeground(0x37ff00)
   end
   if (active == false) then
