@@ -14,7 +14,7 @@ function write()
   term.clear()
   term.setCursor(1,0)
   term.write("Nuclearcraft ".. reactor.getLengthX() .. "x" .. reactor.getLengthY() .. "x" .. reactor.getLengthZ() .. "fission reactor controler")
-  term.setCursor(2,0)
+  term.setCursor(2,2)
   if (active == true) then
     local onoff = "Online" 
     gpu.setForeground(0x37ff00)
@@ -23,7 +23,7 @@ function write()
     local onoff = "Offline" 
     gpu.setForeground(0xff0000)
   end
-  term.write("Reactor: ", onoff)
+  term.write("Reactor: " .. onoff)
   gpu.setForeground(0xffffff)
   os.sleep(1)
 end
