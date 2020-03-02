@@ -51,6 +51,15 @@ function write()
     gpu.setForeground(0x37ff00)
   end
   term.write("Heat: " .. reactor.getHeatLevel() .. " (" .. math.floor((reactor.getHeatLevel()/reactor.getMaxHeatLevel())*100) .. "%" .. ")")
+  gpu.setForeground(0xffffff)
+  -- fuel
+  term.setCursor(1,6)
+  gpu.setForeground(0x0f3800)
+  term.write("Fuel: " .. reactor.getFissionFuelName())
+  gpu.setForeground(0xffffff)
+  -- time
+  term.setCursor(1,7)
+  term.write("Time remaining: " .. reactor.getReactorProcessTime())
   os.sleep(1)
 end
 
