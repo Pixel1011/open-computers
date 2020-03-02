@@ -4,6 +4,8 @@ local red = component.redstone
 local reactor = component.nc_fission_reactor
 local c = component.computer
 local gpu = component.gpu
+reactorOnline = false;
+once = 0;
 --local list = component.list()
 --for address, componentType in list do
 --  print("Address: ", address," | component: ", componentType)
@@ -57,25 +59,23 @@ function write()
   gpu.setForeground(0x0f3800)
   term.write("Fuel: " .. reactor.getFissionFuelName())
   gpu.setForeground(0xffffff)
-  -- time
-  term.setCursor(1,7)
-  term.write("Time remaining: " .. reactor.getReactorProcessTime())
   os.sleep(1)
 end
 
-function start()
-  if(active == false) then
-    --reactor.activate()
-    --active = true;
-    --monitor()
-  end
-end
-
 function monitor()
-  
+  write()
+  if (once == 0 and not reactor.isProcessing()) then
+    reactor.activate()
+    once = 1;
+  end
+  if (reactor.getHeatLevel() >= 500000) then
+    reactor.deactivate()
+    os.sleep(5)
+  end
+
 end
 
-while true do 
-  write()
+while true do  
+  monitor()
   --c.beep()
 end
