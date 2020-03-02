@@ -6,13 +6,12 @@ local c = component.computer
 local gpu = component.gpu
 active = reactor.isProcessing()
 onoff = ""
-power = ""
 --local list = component.list()
 --for address, componentType in list do
 --  print("Address: ", address," | component: ", componentType)
 --end
 
-function write() -- information display THE END
+function write() -- information display
   term.clear()
   gpu.setForeground(0xffffff)
   term.setCursor(1,0)
@@ -37,9 +36,20 @@ function write() -- information display THE END
   if (reactor.getEnergyChange() < 0) then
     gpu.setForeground(0xff0000)
   end
-  term.write("Power in RF/t: " .. reactor.getEnergyChange())
+  term.write("Power in RF/t: " .. reactor.getEnergyChange()*-1)
   gpu.setForeground(0xffffff)
-  -- 
+  -- power stored
+  term.setCursor(1,4)
+  term.write("Power stored: " .. reactor.getEnergyStored() .. "(" .. math.floor((reactor.getEnergyStored()/reactor.getMaxEnergyStored())*100) .. "%" .. ")" )
+  -- heat
+  term.setCursor(1,5)
+  if (reactor.getHeatLevel() > 1) then
+    gpu.setForeground(0xff0000)
+  end
+  if(reactor.getHeatLevel() < 0) then
+    gpu.setForeground(0x37ff00)
+  end
+  term.write("Heat: " .. reactor.getHeatLevel() .. "(" .. math.floor((reactor.getHeatLevel/reactor.getMaxHeatLevel)*100) .. "%" .. ")")
   os.sleep(1)
 end
 
