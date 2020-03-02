@@ -4,6 +4,7 @@ local red = component.redstone
 local reactor = component.nc_fission_reactor
 local c = component.computer
 local gpu = component.gpu
+local x, y = gpu.maxResolution()
 reactorOnline = false;
 once = 0;
 --local list = component.list()
@@ -11,7 +12,8 @@ once = 0;
 --  print("Address: ", address," | component: ", componentType)
 --end
 
-function write() 
+function write()
+  gpu.setResolution(80, 25)
   active = reactor.isProcessing()
   onoff = ""
   -- information display
@@ -33,10 +35,10 @@ function write()
   gpu.setForeground(0xffffff)
   -- power production
   term.setCursor(1,3)
-  if (reactor.getEnergyChange() > 0) then
+  if (reactor.getEnergyChange() > 1) then
     gpu.setForeground(0x37ff00)
   end
-  if (reactor.getEnergyChange() < 0) then
+  if (reactor.getEnergyChange() < 1) then
     gpu.setForeground(0xff0000)
   end
   term.write("Power in RF/t: " .. reactor.getEnergyChange()*-1)
@@ -46,10 +48,10 @@ function write()
   term.write("Power stored: " .. reactor.getEnergyStored() .. " (" .. math.floor((reactor.getEnergyStored()/reactor.getMaxEnergyStored())*100) .. "%" .. ")" )
   -- heat
   term.setCursor(1,5)
-  if (reactor.getHeatLevel() > 1) then
+  if (reactor.getHeatLevel() > 450000) then
     gpu.setForeground(0xff0000)
   end
-  if(reactor.getHeatLevel() < 0) then
+  if(reactor.getHeatLevel() < 450000) then
     gpu.setForeground(0x37ff00)
   end
   term.write("Heat: " .. reactor.getHeatLevel() .. " (" .. math.floor((reactor.getHeatLevel()/reactor.getMaxHeatLevel())*100) .. "%" .. ")")
@@ -59,6 +61,8 @@ function write()
   gpu.setForeground(0x0f3800)
   term.write("Fuel: " .. reactor.getFissionFuelName())
   gpu.setForeground(0xffffff)
+
+  gpu.setResolution(x, y)
   os.sleep(1)
 end
 
@@ -70,7 +74,8 @@ function monitor()
   end
   if (reactor.getHeatLevel() >= 500000) then
     reactor.deactivate()
-    os.sleep(5)
+    os.sleep(10)
+    reactor.activate()
   end
 
 end
