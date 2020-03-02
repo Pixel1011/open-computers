@@ -62,7 +62,7 @@ function write()
   term.write("Fuel: " .. reactor.getFissionFuelName())
   gpu.setForeground(0xffffff)
 
-  gpu.setResolution(x, y)
+  --gpu.setResolution(x, y)
   os.sleep(1)
 end
 
