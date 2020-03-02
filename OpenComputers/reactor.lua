@@ -40,7 +40,7 @@ function write() -- information display
   gpu.setForeground(0xffffff)
   -- power stored
   term.setCursor(1,4)
-  term.write("Power stored: " .. reactor.getEnergyStored() .. "(" .. math.floor((reactor.getEnergyStored()/reactor.getMaxEnergyStored())*100) .. "%" .. ")" )
+  term.write("Power stored: " .. reactor.getEnergyStored() .. " (" .. math.floor((reactor.getEnergyStored()/reactor.getMaxEnergyStored())*100) .. "%" .. ")" )
   -- heat
   term.setCursor(1,5)
   if (reactor.getHeatLevel() > 1) then
@@ -49,7 +49,7 @@ function write() -- information display
   if(reactor.getHeatLevel() < 0) then
     gpu.setForeground(0x37ff00)
   end
-  term.write("Heat: " .. reactor.getHeatLevel() .. "(" .. math.floor((reactor.getHeatLevel/reactor.getMaxHeatLevel)*100) .. "%" .. ")")
+  term.write("Heat: " .. reactor.getHeatLevel() .. " (" .. math.floor((reactor.getHeatLevel()/reactor.getMaxHeatLevel())*100) .. "%" .. ")")
   os.sleep(1)
 end
 
