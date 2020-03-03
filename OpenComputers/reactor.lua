@@ -13,7 +13,7 @@ once = 0;
 --end
 
 function write()
-  gpu.setResolution(80, 25)
+  gpu.setResolution(45, 15)
   active = reactor.isProcessing()
   onoff = ""
   -- information display
@@ -61,6 +61,9 @@ function write()
   gpu.setForeground(0x0f3800)
   term.write("Fuel: " .. reactor.getFissionFuelName())
   gpu.setForeground(0xffffff)
+  -- debug
+  term.setCursor(1,7)
+  term.write(once)
 
   --gpu.setResolution(x, y)
   os.sleep(1)
@@ -68,7 +71,7 @@ end
 
 function monitor()
   write()
-  if (once == 0 and not reactor.isProcessing()) then
+  if (once == 0 and not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel") then
     reactor.activate()
     once = 1;
   end
