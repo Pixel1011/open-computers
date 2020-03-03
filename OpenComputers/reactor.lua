@@ -6,7 +6,7 @@ local c = component.computer
 local gpu = component.gpu
 local x, y = gpu.maxResolution()
 reactorOnline = false;
-once = 0;
+oz = 0;
 --local list = component.list()
 --for address, componentType in list do
 --  print("Address: ", address," | component: ", componentType)
@@ -63,7 +63,7 @@ function write()
   gpu.setForeground(0xffffff)
   -- debug
   term.setCursor(1,7)
-  term.write(once)
+  term.write(oz)
 
   --gpu.setResolution(x, y)
   os.sleep(1)
@@ -71,14 +71,17 @@ end
 
 function monitor()
   write()
-  if (once == 0 and not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel") then
+  if (oz == 0 and not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel") then
     reactor.activate()
-    once = 1;
+    oz = 1
   end
   if (reactor.getHeatLevel() >= 500000) then
     reactor.deactivate()
     os.sleep(10)
     reactor.activate()
+  end
+  if (not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel" and oz == 1) then
+    oz = 0
   end
 
 end
