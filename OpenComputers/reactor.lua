@@ -6,7 +6,7 @@ local c = component.computer
 local gpu = component.gpu
 local x, y = gpu.maxResolution()
 reactorOnline = false;
-oz = 0;
+once = 0;
 --local list = component.list()
 --for address, componentType in list do
 --  print("Address: ", address," | component: ", componentType)
@@ -20,7 +20,7 @@ function write()
   term.clear()
   gpu.setForeground(0xffffff)
   term.setCursor(1,0)
-  term.write("Nuclearcraft ".. reactor.getLengthX() .. "x" .. reactor.getLengthY() .. "x" .. reactor.getLengthZ() .. " fission reactor controller")
+  term.write("Nuclearcraft ".. reactor.getLengthX() .. "x" .. reactor.getLengthY() .. "x" .. reactor.getLengthZ() .. " fission reactor")
   -- on/offline 
   term.setCursor(1,2)
   if (active == true) then
@@ -63,7 +63,7 @@ function write()
   gpu.setForeground(0xffffff)
   -- debug
   term.setCursor(1,7)
-  term.write(oz)
+  term.write(once)
 
   --gpu.setResolution(x, y)
   os.sleep(1)
@@ -71,17 +71,17 @@ end
 
 function monitor()
   write()
-  if (oz == 0 and not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel") then
+  if (once == 0 and not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel") then
     reactor.activate()
-    oz = 1
+    once = 1
   end
   if (reactor.getHeatLevel() >= 500000) then
     reactor.deactivate()
     os.sleep(10)
     reactor.activate()
   end
-  if (not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel" and oz == 1) then
-    oz = 0
+  if (not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel" and once == 1) then
+    once = 0
   end
 
 end
