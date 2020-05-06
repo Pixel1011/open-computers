@@ -71,7 +71,7 @@ end
 
 function monitor()
   write()
-  if (once == 0 and not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel") then
+  if (once == 0 and not reactor.isProcessing()) then
     reactor.activate()
     once = 1
   end
@@ -80,7 +80,7 @@ function monitor()
     os.sleep(10)
     reactor.activate()
   end
-  if (not reactor.isProcessing() and not reactor.getFissionFuelName() == "No Fuel" and once == 1) then
+  if (not reactor.isProcessing() and once == 1) then
     once = 0
   end
 
