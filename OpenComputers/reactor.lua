@@ -48,10 +48,10 @@ function write()
   term.write("Power stored: " .. reactor.getEnergyStored() .. " (" .. math.floor((reactor.getEnergyStored()/reactor.getMaxEnergyStored())*100) .. "%" .. ")" )
   -- heat
   term.setCursor(1,5)
-  if (reactor.getHeatLevel() > 450000) then
+  if (reactor.getHeatLevel() > math.floor(reactor.getMaxHeatLevel())*0.5) then
     gpu.setForeground(0xff0000)
   end
-  if(reactor.getHeatLevel() < 450000) then
+  if(reactor.getHeatLevel() < math.floor(reactor.getMaxHeatLevel())*0.5) then
     gpu.setForeground(0x37ff00)
   end
   term.write("Heat: " .. reactor.getHeatLevel() .. " (" .. math.floor((reactor.getHeatLevel()/reactor.getMaxHeatLevel())*100) .. "%" .. ")")
@@ -75,7 +75,7 @@ function monitor()
     reactor.activate()
     once = 1
   end
-  if (reactor.getHeatLevel() >= 500000) then
+  if (reactor.getHeatLevel() >= math.floor(reactor.getMaxHeatLevel())*0.75) then -- man i hope reactors dont blow up due to this
     reactor.deactivate()
     os.sleep(10)
     reactor.activate()
