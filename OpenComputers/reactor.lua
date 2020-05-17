@@ -1,3 +1,11 @@
+-- Tier 3 computer, attach 3x4 (3 high, 4 along) tier 3 screen, keyboard, attach reactor via cable to the fission controller
+-- ^ tier 3 graphics card, internet card, tier 3 cpu, 2 tier 3.5 memory sticks, tier 3 hard disk, lua eeprom
+-- install openos by inserting the open os disk and typing install then reboot computer
+-- type wget https://raw.githubusercontent.com/Pixel1011/open-computers/master/OpenComputers/reactor.lua && reactor.lua
+-- that command will download and start the plugin, make sure the fission reactor is built and connected
+-- if you reboot the computer just type: reactor.lua
+-- to restart the program and it doesnt matter if its already running or not
+-- and once all that is done you have the ability to not care about reactors melting down unless they melt down within 1 second
 local component = require("component")
 local term = require("term")
 local reactor = component.nc_fission_reactor
@@ -61,8 +69,8 @@ function write()
   term.write("Fuel: " .. reactor.getFissionFuelName())
   gpu.setForeground(0xffffff)
   -- debug
-  term.setCursor(1,7)
-  term.write(once)
+  --term.setCursor(1,7)
+  --term.write(once)
 
   --gpu.setResolution(x, y)
   os.sleep(1)
