@@ -1,6 +1,5 @@
 local component = require("component")
 local term = require("term")
-local red = component.redstone
 local reactor = component.nc_fission_reactor
 local c = component.computer
 local gpu = component.gpu
