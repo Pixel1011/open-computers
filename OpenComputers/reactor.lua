@@ -75,7 +75,7 @@ function monitor()
     reactor.activate()
     once = 1
   end
-  if (reactor.getHeatLevel() >= math.floor(reactor.getMaxHeatLevel())*0.75) then -- man i hope reactors dont blow up due to this
+  if (reactor.getHeatLevel() >= math.floor(reactor.getMaxHeatLevel())*0.75 or reactor.getEnergyStored() >= math.floor(reactor.getMaxEnergyStored())*0.8) then -- man i hope reactors dont blow up due to this
     reactor.deactivate()
     os.sleep(10)
     reactor.activate()
