@@ -6,6 +6,7 @@
 -- if you reboot the computer just type: reactor.lua
 -- to restart the program and it doesnt matter if its already running or not
 -- and once all that is done you have the ability to not care about reactors melting down unless they melt down within 1 second
+
 local component = require("component")
 local term = require("term")
 local reactor = component.nc_fission_reactor
@@ -14,10 +15,7 @@ local gpu = component.gpu
 local x, y = gpu.maxResolution()
 reactorOnline = false;
 once = 0;
---local list = component.list()
---for address, componentType in list do
---  print("Address: ", address," | component: ", componentType)
---end
+deactivated = false;
 
 function write()
   gpu.setResolution(45, 15)
@@ -78,14 +76,14 @@ end
 
 function monitor()
   write()
-  if (once == 0 and not reactor.isProcessing()) then
+  if (once == 0 and not reactor.isProcessing() or deactivated == true and reactor.getHeatLevel() <= math.floor(reactor.getMaxHeatLevel())*0.4 and reactor.getEnergyStored() <= math.floor(reactor.getMaxEnergyStored())*0.5) then
     reactor.activate()
     once = 1
+    deactivated = false
   end
   if (reactor.getHeatLevel() >= math.floor(reactor.getMaxHeatLevel())*0.75 or reactor.getEnergyStored() >= math.floor(reactor.getMaxEnergyStored())*0.8) then -- man i hope reactors dont blow up due to this
     reactor.deactivate()
-    os.sleep(10)
-    reactor.activate()
+    deactivated = true
   end
   if (not reactor.isProcessing() and once == 1) then
     once = 0
