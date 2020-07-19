@@ -66,10 +66,10 @@ function write()
 
   -- information display
   gpu.setForeground(0xffffff)
-  term.setCursor(1,7)
+  term.setCursor(1,8)
   term.write("Nuclearcraft ".. reactor1.getLengthX() .. "x" .. reactor1.getLengthY() .. "x" .. reactor1.getLengthZ() .. " fission reactor")
   -- on/offline 
-  term.setCursor(1,8)
+  term.setCursor(1,9)
   if (active1 == true) then
     onoff1 = "Online" 
     gpu.setForeground(0x37ff00)
@@ -78,10 +78,10 @@ function write()
     onoff1 = "Offline" 
     gpu.setForeground(0xff0000)
   end
-  term.write("Reactor: " .. onoff)
+  term.write("Reactor: " .. onoff1)
   gpu.setForeground(0xffffff)
   -- power production
-  term.setCursor(1,9)
+  term.setCursor(1,10)
   if (reactor1.getEnergyChange() > 1) then
     gpu.setForeground(0x37ff00)
   end
@@ -91,10 +91,10 @@ function write()
   term.write("Power in RF/t: " .. reactor1.getEnergyChange()*-1)
   gpu.setForeground(0xffffff)
   -- power stored
-  term.setCursor(1,10)
+  term.setCursor(1,11)
   term.write("Power stored: " .. reactor1.getEnergyStored() .. " (" .. math.floor((reactor1.getEnergyStored()/reactor1.getMaxEnergyStored())*100) .. "%" .. ")" )
   -- heat
-  term.setCursor(1,11)
+  term.setCursor(1,12)
   if (reactor1.getHeatLevel() > math.floor(reactor1.getMaxHeatLevel())*0.5) then
     gpu.setForeground(0xff0000)
   end
@@ -104,7 +104,7 @@ function write()
   term.write("Heat: " .. reactor1.getHeatLevel() .. " (" .. math.floor((reactor1.getHeatLevel()/reactor1.getMaxHeatLevel())*100) .. "%" .. ")")
   gpu.setForeground(0xffffff)
   -- fuel
-  term.setCursor(1,12)
+  term.setCursor(1,13)
   gpu.setForeground(0x0f3800)
   term.write("Fuel: " .. reactor1.getFissionFuelName())
   gpu.setForeground(0xffffff)
@@ -127,7 +127,7 @@ function monitor()
     reactoronce = 0
   end
 
-  if (once == 0 and not reactor1.isProcessing() or reactor1deactivated == true and reactor1.getHeatLevel() <= math.floor(reactor1.getMaxHeatLevel())*0.4 and reactor1.getEnergyStored() <= math.floor(reactor1.getMaxEnergyStored())*0.5) then
+  if (reactor1once == 0 and not reactor1.isProcessing() or reactor1deactivated == true and reactor1.getHeatLevel() <= math.floor(reactor1.getMaxHeatLevel())*0.4 and reactor1.getEnergyStored() <= math.floor(reactor1.getMaxEnergyStored())*0.5) then
     reactor1.activate()
     reactor1once = 1
     reactor1deactivated = false
