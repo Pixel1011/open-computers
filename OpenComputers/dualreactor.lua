@@ -8,8 +8,6 @@ local reactor_iter = component.list('nc_fission_reactor')
 local reactor, reactor1 = component.proxy(reactor_iter()), component.proxy(reactor_iter())
 reactoronce = 0
 reactor1once = 0
-reactordeactivated = false
-reactor1deactivated = false
 
 function write()
   gpu.setResolution(45, 15)
@@ -114,27 +112,23 @@ end
 
 function monitor()
   write()
-  if (once == 0 and not reactor.isProcessing() or reactordeactivated == true and reactor.getHeatLevel() <= math.floor(reactor.getMaxHeatLevel())*0.4 and reactor.getEnergyStored() <= math.floor(reactor.getMaxEnergyStored())*0.5) then
+  if (reactoronce == 0 and reactor.getHeatLevel() <= math.floor(reactor.getMaxHeatLevel())*0.4 and reactor.getEnergyStored() <= math.floor(reactor.getMaxEnergyStored())*0.5) then
     reactor.activate()
     reactoronce = 1
-    reactordeactivated = false
   end
   if (reactor.getHeatLevel() >= math.floor(reactor.getMaxHeatLevel())*0.75 or reactor.getEnergyStored() >= math.floor(reactor.getMaxEnergyStored())*0.8) then -- man i hope reactors dont blow up due to this
     reactor.deactivate()
-    reactordeactivated = true
   end
-  if (not reactor.isProcessing() and once == 1) then
+  if (not reactor.isProcessing() and reactoronce == 1) then
     reactoronce = 0
   end
 
-  if (reactor1once == 0 and not reactor1.isProcessing() or reactor1deactivated == true and reactor1.getHeatLevel() <= math.floor(reactor1.getMaxHeatLevel())*0.4 and reactor1.getEnergyStored() <= math.floor(reactor1.getMaxEnergyStored())*0.5) then
+  if (reactor1once == 0 and not reactor1.isProcessing() and reactor1.getHeatLevel() <= math.floor(reactor1.getMaxHeatLevel())*0.4 and reactor1.getEnergyStored() <= math.floor(reactor1.getMaxEnergyStored())*0.5) then
     reactor1.activate()
     reactor1once = 1
-    reactor1deactivated = false
   end
   if (reactor1.getHeatLevel() >= math.floor(reactor1.getMaxHeatLevel())*0.75 or reactor1.getEnergyStored() >= math.floor(reactor1.getMaxEnergyStored())*0.8) then
     reactor1.deactivate()
-    reactor1deactivated = true
   end
   if (not reactor1.isProcessing() and reactor1once == 1) then
     reactor1once = 0
