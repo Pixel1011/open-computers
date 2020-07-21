@@ -14,8 +14,7 @@ local c = component.computer
 local gpu = component.gpu
 local x, y = gpu.maxResolution()
 reactorOnline = false;
-once = 0;
-deactivated = false;
+reactoronce = 0;
 
 function write()
   gpu.setResolution(45, 15)
@@ -76,19 +75,16 @@ end
 
 function monitor()
   write()
-  if (once == 0 and not reactor.isProcessing() or deactivated == true and reactor.getHeatLevel() <= math.floor(reactor.getMaxHeatLevel())*0.4 and reactor.getEnergyStored() <= math.floor(reactor.getMaxEnergyStored())*0.5) then
+  if (reactoronce == 0 and reactor.getHeatLevel() <= math.floor(reactor.getMaxHeatLevel())*0.4 and reactor.getEnergyStored() <= math.floor(reactor.getMaxEnergyStored())*0.5) then
     reactor.activate()
-    once = 1
-    deactivated = false
+    reactoronce = 1
   end
   if (reactor.getHeatLevel() >= math.floor(reactor.getMaxHeatLevel())*0.75 or reactor.getEnergyStored() >= math.floor(reactor.getMaxEnergyStored())*0.8) then -- man i hope reactors dont blow up due to this
     reactor.deactivate()
-    deactivated = true
   end
-  if (not reactor.isProcessing() and once == 1) then
-    once = 0
+  if (not reactor.isProcessing() and reactoronce == 1) then
+    reactoronce = 0
   end
-
 end
 
 while true do  
